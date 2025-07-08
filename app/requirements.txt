@@ -1,1 +1,7 @@
+# app/requirements.txt
+mlflow==2.14.0 # Specific MLflow version
+scikit-learn==1.5.1 # For the ML experiment
+pandas==2.2.2 # For data handling in the ML experiment
+numpy==1.26.4 # For numerical operations
+psycopg2-binary==2.9.9 # PostgreSQL adapter for MLflow backend store
 

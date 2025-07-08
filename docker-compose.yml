@@ -1,0 +1,44 @@
+# mlflow_grocery_tracker/docker-compose.yml
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service for MLflow Backend Store
+  mlflow-db:
+    image: postgres:13 # Using a stable PostgreSQL version
+    container_name: mlflow_postgres_db
+    ports:
+      - '5432:5432' # Map host port 5432 to container port 5432
+    environment:
+      # Database credentials (use values from .env file)
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - mlflow_postgres_data:/var/lib/postgresql/data # Persist database data
+    restart: always # Always restart if the container stops
+
+  # MLflow Tracking Server Service
+  mlflow-server:
+    build:
+      context: . # Build from the current directory (where Dockerfile is)
+      dockerfile: Dockerfile # Specify the Dockerfile to use
+    container_name: mlflow_tracking_server
+    ports:
+      - '5000:5000' # Map host port 5000 to container port 5000 (MLflow UI default)
+    environment:
+      # MLflow Backend Store URI (connects to the 'mlflow-db' service)
+      MLFLOW_TRACKING_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@mlflow-db:5432/${POSTGRES_DB}
+      # MLflow Artifact Store URI (local path within the container, mapped to a host volume)
+      MLFLOW_ARTIFACT_URI: /mlflow_artifacts
+    volumes:
+      - mlflow_artifacts:/mlflow_artifacts # Persist artifacts
+    depends_on:
+      - mlflow-db # Ensure the database starts before MLflow server
+    restart: always # Always restart if the container stops
+    # Command to start the MLflow UI server
+    command: mlflow ui --host 0.0.0.0 --port 5000
+
+# Define named volumes for data persistence
+volumes:
+  mlflow_postgres_data:
+  mlflow_artifacts:

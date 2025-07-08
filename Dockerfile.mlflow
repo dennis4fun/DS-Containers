@@ -1,0 +1,11 @@
+# restaurant_expense_tracker/Dockerfile.mlflow
+FROM python:3.10-slim-buster
+
+WORKDIR /app
+
+COPY app/requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# MLflow UI will be started via command in docker-compose.yml
+EXPOSE 5000

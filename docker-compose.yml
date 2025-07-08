@@ -1,44 +1,56 @@
-# mlflow_grocery_tracker/docker-compose.yml
+# DS-Containers/docker-compose.yml
 version: '3.8'
 
 services:
-  # PostgreSQL Database Service for MLflow Backend Store
   mlflow-db:
-    image: postgres:13 # Using a stable PostgreSQL version
+    image: postgres:13
     container_name: mlflow_postgres_db
     ports:
-      - '5432:5432' # Map host port 5432 to container port 5432
+      - '5432:5432'
     environment:
-      # Database credentials (use values from .env file)
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - mlflow_postgres_data:/var/lib/postgresql/data # Persist database data
-    restart: always # Always restart if the container stops
+      - mlflow_postgres_data:/var/lib/postgresql/data
+    restart: always
 
-  # MLflow Tracking Server Service
   mlflow-server:
     build:
-      context: . # Build from the current directory (where Dockerfile is)
-      dockerfile: Dockerfile # Specify the Dockerfile to use
+      context: . # Build context is the root DS-Containers directory
+      dockerfile: Dockerfile.mlflow # Reference the specific Dockerfile
     container_name: mlflow_tracking_server
     ports:
-      - '5000:5000' # Map host port 5000 to container port 5000 (MLflow UI default)
+      - '5000:5000'
     environment:
-      # MLflow Backend Store URI (connects to the 'mlflow-db' service)
       MLFLOW_TRACKING_URI: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@mlflow-db:5432/${POSTGRES_DB}
-      # MLflow Artifact Store URI (local path within the container, mapped to a host volume)
-      MLFLOW_ARTIFACT_URI: /mlflow_artifacts
+      MLFLOW_ARTIFACT_URI: file:/mlflow_artifacts
     volumes:
       - mlflow_artifacts:/mlflow_artifacts # Persist artifacts
+      - ./app:/app # Mount app code from host to container for execution
+      - ./data:/data # Mount data directory from host to container for CSVs
     depends_on:
-      - mlflow-db # Ensure the database starts before MLflow server
-    restart: always # Always restart if the container stops
-    # Command to start the MLflow UI server
+      - mlflow-db
+    restart: always
     command: mlflow ui --host 0.0.0.0 --port 5000
 
-# Define named volumes for data persistence
+  streamlit-ui:
+    build:
+      context: . # Build context is the root DS-Containers directory
+      dockerfile: Dockerfile.streamlit # Reference the specific Dockerfile
+    container_name: restaurant_streamlit_ui
+    ports:
+      - '8501:8501' # Streamlit UI port
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow-server:5000 # Streamlit connects to MLflow server
+    volumes:
+      - ./app:/app # Mount app code for Streamlit
+      - ./data:/data # Mount data directory to read generated CSVs
+      - mlflow_artifacts:/mlflow_artifacts # Access MLflow artifacts if needed
+    depends_on:
+      - mlflow-server
+    restart: always
+
 volumes:
   mlflow_postgres_data:
   mlflow_artifacts:

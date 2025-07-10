@@ -4,17 +4,17 @@ This project demonstrates a comprehensive MLOps workflow, combining Docker conta
 
 ## 🌟 Features
 
-- End-to-End Containerization: All core services (PostgreSQL database, MLflow Tracking Server, Streamlit Dashboard) run in isolated Docker containers, managed by Docker Compose.
+- End-to-End Containerization: All core services (MLflow Tracking Server, Streamlit Dashboard) run in isolated Docker containers, managed by Docker Compose.
 
 - MLflow Experiment Tracking: Logs machine learning experiment parameters, metrics, and models to a PostgreSQL backend store.
 
-- Synthetic Data Generation: A Python script (data_generator.py) creates realistic-looking weekly expense data for various restaurant products.
+- Synthetic Data Generation: A Python script (`data_generator.py`) creates realistic-looking weekly expense data for various restaurant products.
 
-- Machine Learning Analysis: An ML experiment (ml_experiment.py) processes the weekly data, performs basic analysis, trains a simple Linear Regression model, and logs key insights and the model to MLflow.
+- Machine Learning Analysis: An ML experiment (`ml_experiment.py`) processes the weekly data, performs basic analysis, trains a simple Linear Regression model, and logs key insights and the model to MLflow.
 
-- Interactive Reporting Dashboard: A Streamlit application (streamlit_app.py) connects to the MLflow server to visualize weekly expense trends and experiment details.
+- Interactive Reporting Dashboard: A Streamlit application (`streamlit_app.py`) connects to the MLflow server to visualize weekly expense trends and experiment details.
 
-- Automated Workflow Simulation: Includes a GitHub Actions workflow (weekly_report_workflow.yml) to demonstrate how data generation and ML analysis can be scheduled and automated (simulated locally).
+- Automated Workflow Simulation: Includes a GitHub Actions workflow (`weekly_report_workflow.yml`) to demonstrate how data generation and ML analysis can be scheduled and automated (simulated locally).
 
 - Data Persistence: Docker volumes ensure that your PostgreSQL database data and MLflow artifacts (models, reports) persist across container restarts.
 
@@ -86,19 +86,17 @@ mkdir reports
 docker-compose up --build -d
 ```
 
-- --build: Builds the Docker images (specifically Dockerfile.mlflow and Dockerfile.streamlit) if they don't exist or have changed.
+- `--build`: Builds the Docker images (specifically Dockerfile.mlflow and Dockerfile.streamlit) if they don't exist or have changed.
 
-- -d: Runs the containers in detached mode (in the background).
+- `-d`: Runs the containers in detached mode (in the background).
 
 This command will:
 
-- Pull the postgres:13 Docker image.
+- Build your custom `mlflow-server` and `streamlit-ui` Docker images.
 
-- Build your custom mlflow-server and streamlit-ui Docker images.
+- Start all three services: MLflow Tracking Server, and the Streamlit UI.
 
-- Start all three services: PostgreSQL database, MLflow Tracking Server, and the Streamlit UI.
-
-5. Verify Containers are Running:
+1. Verify Containers are Running:
    You can check the status of your containers:
 
 ```bash
@@ -168,11 +166,11 @@ python app/ml_experiment.py $DATA_FILE_PATH
 
 ## 📅 Simulating Weekly Automation (GitHub Actions)
 
-The .github/workflows/weekly_report_workflow.yml file is included to demonstrate how this process could be automated in a real CI/CD environment like GitHub Actions.
+The `.github/workflows/weekly_report_workflow.yml` file is included to demonstrate how this process could be automated in a real CI/CD environment like GitHub Actions.
 
 ## Important Note for Local Demo:
 
-GitHub Actions runs in GitHub's cloud environment, not directly on your local machine. Therefore, the weekly_report_workflow.yml cannot directly connect to your local Docker Compose setup.
+GitHub Actions runs in GitHub's cloud environment, not directly on your local machine. Therefore, the `weekly_report_workflow.yml` cannot directly connect to your local Docker Compose setup.
 
 - For a true end-to-end GitHub Actions integration, your MLflow Tracking Server and Artifact Store would typically need to be deployed to a cloud service (e.g., MLflow on an AWS EC2 instance with S3 for artifacts, or Azure Machine Learning).
 
@@ -186,8 +184,8 @@ To stop and remove all containers, networks, and the persistent data volumes cre
 docker-compose down -v
 ```
 
-- down: Stops and removes the containers and networks defined in docker-compose.yml.
+- `down`: Stops and removes the containers and networks defined in docker-compose.yml.
 
-- -v: Removes the named volumes (mlflow_postgres_data, mlflow_artifacts), which will delete all your database data and logged artifacts. Omit -v if you want to keep the data for future runs.
+- `-v`: Removes the named volumes (`mlflow_postgres_data`, `mlflow_tracking_store`, and `mlflow_artifacts`), mlflow_artifacts), which will delete all your database data and logged artifacts. Omit `-v` if you want to keep the data for future runs.
 
 This project provides a robust and practical example of containerization in a data science context. Enjoy building and showcasing it!

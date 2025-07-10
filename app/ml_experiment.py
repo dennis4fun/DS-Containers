@@ -25,9 +25,11 @@ def analyze_and_log_expenses(data_path):
     # This will connect to the containerized MLflow server
     mlflow.set_tracking_uri("http://localhost:5000")
     
-    # REMOVED: mlflow.set_artifact_uri() is deprecated and no longer needed.
-    # The artifact URI is now configured on the MLflow server side (docker-compose.yml).
-    # mlflow.set_artifact_uri("file://" + os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'reports', 'artifacts')))
+    # FIX: REMOVED mlflow.set_artifact_uri()
+    # This function is deprecated and no longer needed.
+    # The artifact URI is configured on the MLflow server side (docker-compose.yml).
+    # local_mlflow_artifacts_path = os.path.abspath(os.path.join(os.getcwd(), 'reports', 'artifacts'))
+    # mlflow.set_artifact_uri("file://" + local_mlflow_artifacts_path)
 
 
     try:

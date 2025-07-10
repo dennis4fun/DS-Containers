@@ -4,6 +4,8 @@ import polars as pl
 import plotly.express as px
 import os
 from datetime import datetime, timedelta
+import subprocess
+import time
 
 st.set_page_config(page_title="Restaurant Expense EDA Dashboard", layout="wide")
 st.title("📊 Restaurant Expense Exploratory Data Analysis")
@@ -39,7 +41,6 @@ def load_data(data_dir="../data"):
     combined_df = pl.concat(df_list, how="vertical")
     
     # Ensure 'date' column is datetime
-    # The format string should match the actual format in your CSVs, e.g., "YYYY-MM-DD HH:MM:SS.f"
     combined_df = combined_df.with_columns(
         pl.col('date').str.strptime(pl.Datetime, "%Y-%m-%d %H:%M:%S%.f").alias("date")
     )
@@ -52,36 +53,114 @@ def load_data(data_dir="../data"):
     
     return combined_df
 
+# --- Function to run ML Experiment ---
+def run_ml_experiment_script(data_file_path):
+    """
+    Runs the ml_experiment.py script as a subprocess.
+    Assumes ml_experiment.py is in the same 'app' directory.
+    Returns the MLflow run URL if successful, otherwise None.
+    """
+    script_path = os.path.join(os.path.dirname(__file__), "ml_experiment.py")
+    mlflow_run_url = None
+    
+    try:
+        result = subprocess.run(
+            ["python", script_path, data_file_path],
+            capture_output=True,
+            text=True,
+            check=True,
+            encoding='utf-8', # Explicitly set encoding for subprocess output
+            errors='replace' # Replace unencodable characters instead of failing
+        )
+        
+        # Parse stdout to find the MLflow run URL
+        # Look for lines like: "View run indecisive-cod-974 at: http://localhost:5000/#/experiments/..."
+        for line in result.stdout.splitlines():
+            if "View run" in line and "http" in line:
+                match = re.search(r'(http://localhost:\d+/#/experiments/\S+)', line)
+                if match:
+                    mlflow_run_url = match.group(1)
+                    break
+        
+        # Display success message and relevant output/link
+        st.success("ML Experiment run successfully!")
+        if mlflow_run_url:
+            st.markdown(f"**New MLflow Run Created:** [View Run Details]({mlflow_run_url})")
+        else:
+            st.info("MLflow run URL not found in script output, but experiment ran.")
+        
+        # Optionally show full stdout/stderr, but be mindful of encoding errors
+        with st.expander("Show full ML Experiment output"):
+            st.code(result.stdout)
+            if result.stderr:
+                st.warning("ML Experiment produced stderr output:")
+                st.code(result.stderr)
+        
+        return mlflow_run_url # Return the URL if found
+    
+    except subprocess.CalledProcessError as e:
+        st.error(f"ML Experiment failed with exit code {e.returncode}. Error:")
+        # Attempt to decode stderr, replacing errors
+        st.code(e.stderr.encode('utf-8', errors='replace').decode('utf-8'))
+        return None
+    except FileNotFoundError:
+        st.error(f"Error: Python executable or ml_experiment.py not found. Check your PATH or script location.")
+        return None
+    except Exception as e:
+        st.error(f"An unexpected error occurred: {e}")
+        return None
+
+
 # Load the data
 df = load_data()
 
-# --- NEW: Link to MLflow UI ---
+# --- NEW: Link to MLflow UI & Run Experiment Button ---
 st.markdown("---")
 st.markdown("For detailed ML experiment tracking, visit the [MLflow UI](http://localhost:5000).")
+
+st.subheader("Trigger ML Experiment")
+st.write("Click the button below to generate new data and run an ML experiment, logging results to MLflow.")
+
+# Get a list of available CSV files in the data/ directory
+data_files_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
+available_csvs = [f for f in os.listdir(data_files_dir) if f.endswith('.csv')]
+
+if not available_csvs:
+    st.warning("No CSV files found in the `data/` directory. Please generate data first!")
+    selected_csv = None
+else:
+    # Allow user to select a CSV file
+    selected_csv_name = st.selectbox("Select CSV file to analyze:", available_csvs)
+    selected_csv = os.path.join(data_files_dir, selected_csv_name)
+
+if st.button("Run ML Experiment") and selected_csv:
+    with st.spinner("Running ML experiment and logging to MLflow..."):
+        mlflow_run_url_result = run_ml_experiment_script(selected_csv) # Capture the URL
+        if mlflow_run_url_result:
+            st.success(f"ML Experiment completed. New run logged. [View Run in MLflow]({mlflow_run_url_result})")
+        else:
+            st.error("ML Experiment failed. Check logs above for details.")
+    st.rerun() # Rerun the app to refresh the dashboard and show new MLflow data
+
 st.markdown("---")
 # --- END NEW ---
 
-if df.is_empty(): # Check if Polars DataFrame is empty
+if df.is_empty():
     st.info("Dashboard cannot be displayed as no data was loaded.")
 else:
-    # --- NEW: Sidebar Filters ---
     st.sidebar.header("Filter Data")
 
-    # Product Category Filter
     all_products = ["All"] + df['product'].unique().sort().to_list()
     selected_product = st.sidebar.selectbox("Select Product Category", all_products)
 
-    # Supplier Filter
     all_suppliers = ["All"] + df['supplier'].unique().sort().to_list()
     selected_supplier = st.sidebar.selectbox("Select Supplier", all_suppliers)
 
-    # Date Range Filter
     min_date = df['date'].min().date()
     max_date = df['date'].max().date()
     date_range = st.sidebar.date_input("Select Date Range", value=(min_date, max_date), min_value=min_date, max_value=max_date)
 
-    # Apply filters
-    filtered_df = df.clone() # Start with a clone to avoid modifying original cached df
+    filtered_df = df.clone()
 
     if selected_product != "All":
         filtered_df = filtered_df.filter(pl.col('product') == selected_product)
@@ -89,34 +168,27 @@ else:
     if selected_supplier != "All":
         filtered_df = filtered_df.filter(pl.col('supplier') == selected_supplier)
 
-    # Ensure date_range has two dates before filtering
     if len(date_range) == 2:
-        start_date = datetime.combine(date_range[0], datetime.min.time()) # Convert date to datetime at start of day
-        end_date = datetime.combine(date_range[1], datetime.max.time())   # Convert date to datetime at end of day
+        start_date = datetime.combine(date_range[0], datetime.min.time())
+        end_date = datetime.combine(date_range[1], datetime.max.time())
         filtered_df = filtered_df.filter(
             (pl.col('date') >= start_date) & (pl.col('date') <= end_date)
         )
-    elif len(date_range) == 1: # Handle case where only one date is selected (e.g., initial state or user interaction)
+    elif len(date_range) == 1:
         start_date = datetime.combine(date_range[0], datetime.min.time())
         filtered_df = filtered_df.filter(pl.col('date') >= start_date)
 
-
-    # Check if filtered_df is empty after applying filters
     if filtered_df.is_empty():
         st.warning("No data matches the selected filters. Please adjust your selections.")
-        st.stop() # Stop execution if no data to display
-
-    # --- End NEW: Sidebar Filters ---
+        st.stop()
 
     st.subheader("Raw Data Preview (Polars DataFrame)")
-    st.dataframe(filtered_df.head().to_pandas()) # Display filtered data
+    st.dataframe(filtered_df.head().to_pandas())
 
     st.subheader("Overall Expense Trends")
-    
-    # Ensure filtered_df is sorted before group_by_dynamic
     df_sorted_for_trends = filtered_df.sort("date") 
 
-    weekly_summary = df_sorted_for_trends.group_by_dynamic( # Use the sorted filtered DataFrame
+    weekly_summary = df_sorted_for_trends.group_by_dynamic(
         index_column="date",
         every="1w",
         offset="1d"

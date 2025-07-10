@@ -6,7 +6,7 @@ This project demonstrates a comprehensive MLOps workflow, combining Docker conta
 
 - End-to-End Containerization: All core services (MLflow Tracking Server, Streamlit Dashboard) run in isolated Docker containers, managed by Docker Compose.
 
-- MLflow Experiment Tracking: Logs machine learning experiment parameters, metrics, and models to a PostgreSQL backend store.
+- MLflow Experiment Tracking: Logs machine learning experiment parameters, metrics, and models to a PostgreSQL backend store. [Mldlow Link](https://mlflow.org/)
 
 - Synthetic Data Generation: A Python script (`data_generator.py`) creates realistic-looking weekly expense data for various restaurant products.
 
@@ -162,7 +162,7 @@ python app/ml_experiment.py $DATA_FILE_PATH
 
     - Refresh your MLflow UI (http://localhost:5000): You should now see new experiments and runs logged, complete with parameters, metrics, and the saved model.
 
-    - Refresh your Streamlit UI (http://localhost:8501): The dashboard will now display the aggregated results and trends from your MLflow runs.
+    - Refresh your Streamlit UI (http://localhost:8504): The dashboard will now display the aggregated results and trends from your MLflow runs.
 
 ## 📅 Simulating Weekly Automation (GitHub Actions)
 

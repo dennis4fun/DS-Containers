@@ -12,7 +12,7 @@ st.title("📊 Restaurant Expense Exploratory Data Analysis")
 st.markdown("This dashboard visualizes expense data directly from CSV files in the `data/` directory.")
 
 # --- Data Loading ---
-@st.cache_data
+@st.cache_data(ttl=600) # Cache data for 10 minutes
 def load_data(data_dir="../data"):
     """
     Loads all CSV files from the specified directory into a single Polars DataFrame.
@@ -74,7 +74,6 @@ def run_ml_experiment_script(data_file_path):
         )
         
         # Parse stdout to find the MLflow run URL
-        # Look for lines like: "View run indecisive-cod-974 at: http://localhost:5000/#/experiments/..."
         for line in result.stdout.splitlines():
             if "View run" in line and "http" in line:
                 match = re.search(r'(http://localhost:\d+/#/experiments/\S+)', line)
@@ -82,25 +81,22 @@ def run_ml_experiment_script(data_file_path):
                     mlflow_run_url = match.group(1)
                     break
         
-        # Display success message and relevant output/link
         st.success("ML Experiment run successfully!")
         if mlflow_run_url:
             st.markdown(f"**New MLflow Run Created:** [View Run Details]({mlflow_run_url})")
         else:
             st.info("MLflow run URL not found in script output, but experiment ran.")
         
-        # Optionally show full stdout/stderr, but be mindful of encoding errors
         with st.expander("Show full ML Experiment output"):
             st.code(result.stdout)
             if result.stderr:
                 st.warning("ML Experiment produced stderr output:")
                 st.code(result.stderr)
         
-        return mlflow_run_url # Return the URL if found
+        return mlflow_run_url
     
     except subprocess.CalledProcessError as e:
         st.error(f"ML Experiment failed with exit code {e.returncode}. Error:")
-        # Attempt to decode stderr, replacing errors
         st.code(e.stderr.encode('utf-8', errors='replace').decode('utf-8'))
         return None
     except FileNotFoundError:
@@ -118,15 +114,33 @@ df = load_data()
 st.markdown("---")
 st.markdown("For detailed ML experiment tracking, visit the [MLflow UI](http://localhost:5000).")
 
+st.subheader("Upload Custom Data")
+uploaded_file = st.file_uploader("Choose a CSV file", type="csv")
+
+if uploaded_file is not None:
+    # Get the path to the data directory relative to the Streamlit app
+    data_dir_path = os.path.join(os.path.dirname(__file__), '..', 'data')
+    os.makedirs(data_dir_path, exist_ok=True) # Ensure data directory exists
+
+    # Save the uploaded file to the data directory
+    file_path = os.path.join(data_dir_path, uploaded_file.name)
+    with open(file_path, "wb") as f:
+        f.write(uploaded_file.getbuffer())
+    st.success(f"Uploaded '{uploaded_file.name}' to data/ directory!")
+    
+    # Rerun the app to refresh the list of available CSVs and data
+    st.experimental_rerun() # Use experimental_rerun for immediate refresh after upload
+
+
 st.subheader("Trigger ML Experiment")
-st.write("Click the button below to generate new data and run an ML experiment, logging results to MLflow.")
+st.write("Click the button below to run an ML experiment with selected data, logging results to MLflow.")
 
 # Get a list of available CSV files in the data/ directory
 data_files_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
 available_csvs = [f for f in os.listdir(data_files_dir) if f.endswith('.csv')]
 
 if not available_csvs:
-    st.warning("No CSV files found in the `data/` directory. Please generate data first!")
+    st.warning("No CSV files found in the `data/` directory. Please generate or upload data first!")
     selected_csv = None
 else:
     # Allow user to select a CSV file
@@ -135,7 +149,7 @@ else:
 
 if st.button("Run ML Experiment") and selected_csv:
     with st.spinner("Running ML experiment and logging to MLflow..."):
-        mlflow_run_url_result = run_ml_experiment_script(selected_csv) # Capture the URL
+        mlflow_run_url_result = run_ml_experiment_script(selected_csv)
         if mlflow_run_url_result:
             st.success(f"ML Experiment completed. New run logged. [View Run in MLflow]({mlflow_run_url_result})")
         else:
@@ -160,7 +174,7 @@ else:
     max_date = df['date'].max().date()
     date_range = st.sidebar.date_input("Select Date Range", value=(min_date, max_date), min_value=min_date, max_value=max_date)
 
-    filtered_df = df.clone()
+    filtered_df = df.clone() if not df.is_empty() else pl.DataFrame() # Ensure filtered_df is initialized
 
     if selected_product != "All":
         filtered_df = filtered_df.filter(pl.col('product') == selected_product)

@@ -11,17 +11,12 @@ services:
     ports:
       - '5000:5000'
     environment:
-      # MLflow Tracking URI now points to the 'mlruns' directory within the /reports bind mount
-      MLFLOW_TRACKING_URI: file:///reports/mlruns
-      # MLflow Artifact Store URI points to the 'artifacts' sub-directory within the /reports bind mount
-      MLFLOW_ARTIFACT_URI: file:///reports/artifacts
+      MLFLOW_TRACKING_URI: ${MLFLOW_TRACKING_URI}
+      MLFLOW_ARTIFACT_URI: ${MLFLOW_ARTIFACT_URI}
     volumes:
-      # Mount host's ./app directory to container's /app (for scripts)
-      - ./app:/app
-      # NEW: Mount host's ./data directory to container's /data (for generated CSVs)
-      - ./data:/data
-      # NEW: Mount host's ./reports directory to container's /reports (for mlruns and artifacts)
       - ./reports:/reports
+      - ./app:/app
+      - ./data:/data
     restart: always
     command: mlflow ui --host 0.0.0.0 --port 5000
 
@@ -31,16 +26,17 @@ services:
       dockerfile: Dockerfile.streamlit
     container_name: restaurant_streamlit_ui
     ports:
-      - '8502:8501' # Streamlit UI port
+      - '8504:8501' # Streamlit UI port (Host:Container)
     environment:
       MLFLOW_TRACKING_URI: http://mlflow-server:5000 # Streamlit connects to MLflow server
     volumes:
-      - ./app:/app # Mount app code for Streamlit
-      - ./data:/data # Mount data directory to read generated CSVs
-      - ./reports:/reports # Streamlit also needs access to MLflow's reports (mlruns/artifacts)
+      - ./app:/app
+      - ./data:/data
+      - ./reports:/reports
     depends_on:
       - mlflow-server
     restart: always
+    command: streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0
 # No named volumes needed as we are using bind mounts directly
 # volumes:
 #   mlflow_artifacts:

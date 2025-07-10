@@ -20,44 +20,52 @@ jobs:
       - name: Set up Python environment
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.10' # Match your local Python version
           cache: 'pip' # Cache pip dependencies
 
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r app/requirements.txt
+          pip install -r app/requirements.txt # Install dependencies for app scripts
 
-      - name: Get current week's Monday date (for data generation)
-        id: get_date
+      - name: Create data and reports directories
         run: |
-          # Calculate the Monday of the current week (ISO week date)
-          # GitHub Actions runs on UTC, so this will be UTC Monday.
-          MONDAY_DATE=$(date -u +%Y-%m-%d -d "last monday")
-          echo "START_DATE=${MONDAY_DATE}" >> $GITHUB_OUTPUT
+          mkdir data
+          mkdir reports
         shell: bash
 
-      - name: Generate Weekly Expense Data
+      - name: Generate Expense Data
         run: |
-          # The script expects the output_dir to be '/data' in the container context
-          # This will write to /github/workspace/data/weekly_expense_YYYY-MM-DD.csv
-          python app/data_generator.py ${{ steps.get_date.outputs.START_DATE }}
+          # The script will generate a CSV into the 'data/' directory in the runner's workspace
+          python app/data_generator.py data
         shell: bash
 
       - name: Run ML Experiment and Log to MLflow
-        # This step will run the ML experiment and log to the containerized MLflow server.
-        # In a real GHA setup, you'd typically deploy MLflow to a cloud service
-        # or use self-hosted runners with access to your MLflow server.
-        # For this demo, we'll simulate the connection.
         env:
-          # These secrets must be configured in your GitHub repository settings!
-          # For a full GHA-to-MLflow, MLflow needs to be publicly accessible or on a self-hosted runner.
-          # For this demo, these are placeholders for a *remote* MLflow server.
-          # Your local Docker Compose setup is separate.
-          MLFLOW_TRACKING_URI: ${{ secrets.MLFLOW_TRACKING_URI }} # e.g., a public MLflow server URL
-          MLFLOW_ARTIFACT_URI: ${{ secrets.MLFLOW_ARTIFACT_URI }} # e.g., an S3 bucket URL
+          # IMPORTANT: For real MLflow logging from GHA, these would point to a remote MLflow server.
+          # For this demo, we set them to local paths within the GHA runner's workspace.
+          MLFLOW_TRACKING_URI: file:///github/workspace/reports/mlruns
+          MLFLOW_ARTIFACT_URI: file:///github/workspace/reports/artifacts
         run: |
-          # The data file path needs to be relative to the GHA runner's workspace
-          DATA_FILE_PATH="data/weekly_expense_${{ steps.get_date.outputs.START_DATE }}.csv"
-          python app/ml_experiment.py ${DATA_FILE_PATH}
+          # Get the name of the most recently generated CSV file
+          # This assumes data_generator.py prints the full path as its last line.
+          DATA_FILE_NAME=$(ls -t data/*.csv | head -n 1)
+          echo "Using data file: ${DATA_FILE_NAME}"
+
+          # Run the ML experiment script
+          python app/ml_experiment.py ${DATA_FILE_NAME}
         shell: bash
+
+      - name: Upload MLflow Reports as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: mlflow-reports-${{ github.run_id }}
+          path: reports/ # Upload the entire reports directory
+          retention-days: 7 # How long to keep the artifact
+
+      - name: Upload Data as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-${{ github.run_id }}
+          path: data/ # Upload the entire data directory
+          retention-days: 7 # How long to keep the artifact

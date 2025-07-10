@@ -47,7 +47,9 @@ DS-Containers/
 
   - Docker Desktop: Ensure Docker Desktop is installed and running on your machine.
 
-- Download Docker Desktop
+  - [Download Docker Desktop](https://www.docker.com/products/docker-desktop/)
+
+  - `Python & Conda`: For running local scripts (data generation, ML experiment) and the local Streamlit dashboard.
 
 - Step-by-Step Guide
 
@@ -55,29 +57,29 @@ DS-Containers/
 
 ```bash
 git clone <your-repo-url>
-cd restaurant_expense_tracker
+cd DS-Containers
 ```
 
-2. Create the .env file:
-   In the root of the restaurant_expense_tracker directory (next to docker-compose.yml), create a file named .env. This file will store your database credentials.
+2. Create the `.env` file:
+   In the root of the `DS-COntainers` directory (next to `docker-compose.yml`), create a file named `.env`.
 
 ```bash
-# restaurant_expense_tracker/.env
-# PostgreSQL Database Credentials for MLflow Backend Store
-POSTGRES_DB=mlflow_db
-POSTGRES_USER=mlflow_user
-POSTGRES_PASSWORD=mlflow_password_secure
-
-# MLflow Tracking URI (used by ml_experiment.py and Streamlit)
-# This points to the 'mlflow-server' service within the Docker network
-MLFLOW_TRACKING_URI=http://mlflow-server:5000
-# MLflow Artifact Store URI (points to a local path within the container, mapped to a host volume)
-MLFLOW_ARTIFACT_URI=file:/mlflow_artifacts
+# DS-Containers/.env
+MLFLOW_TRACKING_URI=file:///reports/mlruns
+MLFLOW_ARTIFACT_URI=file:///reports/artifacts
 ```
 
-Security Note: Always add .env to your .gitignore file to prevent sensitive information from being committed to version control.
+_Security Note:_ Always add `.env` to your `.gitignore` file to prevent sensitive information from being committed to version control.
 
-3. Build and Start the Docker Containers:
+3. Create data and reports directories on your host:
+   These are the host directories that will be bind-mounted to your Docker containers.
+
+```bash
+mkdir data
+mkdir reports
+```
+
+4. Build and Start the Docker Containers:
    Open your terminal, navigate to the restaurant_expense_tracker directory, and run:
 
 ```bash
@@ -96,7 +98,7 @@ This command will:
 
 - Start all three services: PostgreSQL database, MLflow Tracking Server, and the Streamlit UI.
 
-4. Verify Containers are Running:
+5. Verify Containers are Running:
    You can check the status of your containers:
 
 ```bash
@@ -105,35 +107,64 @@ docker ps
 
 You should see mlflow_postgres_db, mlflow_tracking_server, and restaurant_streamlit_ui listed with "Up" status.
 
-5. Access the UIs:
+6. Access the UIs:
 
 - MLflow UI: Open your web browser and go to: http://localhost:5000
 
   - You should see the MLflow UI, initially empty.
 
-- Streamlit UI: Open your web browser and go to: http://localhost:8501
+- Streamlit UI: Open your web browser and go to: http://localhost:8504
 
   - You should see the Streamlit dashboard, which will initially show no runs.
 
-6. Run the Machine Learning Experiment (Simulate Weekly Report):
-   To populate MLflow with initial data, you'll execute the ml_experiment.py script inside the running mlflow_tracking_server container. This simulates your weekly automated job.
+1. Generate Data (Local Execution):
+   This step creates the CSV data on your host, which ml_experiment.py will then read.
+
+   - Open a PowerShell terminal and navigate to DS-Containers.
+
+- Ensure your Conda environment (rag_env) is activated.
+
+- Run:
 
 ```bash
-# Get the current week's Monday date (UTC)
-WEEK_START_DATE=$(date -u +%Y-%m-%d -d "last monday")
-
-# Execute the data generation and ML experiment inside the MLflow container
-docker exec mlflow_tracking_server python app/data_generator.py ${WEEK_START_DATE}
-docker exec mlflow_tracking_server python app/ml_experiment.py data/weekly_expense_${WEEK_START_DATE}.csv
+python app/data_generator.py data
 ```
 
-- Explanation: The data_generator.py script will create a CSV file in the data/ volume, and then ml_experiment.py will read that CSV, run the analysis, and log to MLflow.
+- You should see output confirming the CSV generation (e.g., Generated ... to: data\expense_data_YYYYMMDDHHMMSS.csv), and a new CSV should appear in DS-Containers/data/.
 
-7. View Reports and Trends:
+1. Run the ML Experiment (Local Execution, Logging to Container):
+   This step processes the locally generated data and logs it to the containerized MLflow server.
 
-- Refresh your MLflow UI (http://localhost:5000): You should now see new experiments and runs logged, complete with parameters, metrics, and the saved model.
+   - In the same PowerShell terminal (still in DS-Containers):
 
-- Refresh your Streamlit UI (http://localhost:8501): The dashboard will now display the aggregated results and trends from your MLflow runs.
+```bash
+# Get the name of the most recently generated CSV file for the experiment
+$LATEST_CSV = Get-ChildItem -Path .\data -Filter "expense_data_*.csv" | Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty Name
+$DATA_FILE_PATH = "data\" + $LATEST_CSV
+
+Write-Host "Running ML experiment with data: $DATA_FILE_PATH"
+python app/ml_experiment.py $DATA_FILE_PATH
+```
+
+- Observe the output carefully. You should see messages indicating data loading, analysis, and MLflow logging, without errors.
+
+9. Verify Reports on Host:
+
+   - Check your host's DS-Containers/reports/mlruns/ folder. You must see experiment folders created here, containing meta.yaml and run data.
+
+   - Inside a run's artifacts folder (e.g., DS-Containers/reports/mlruns/<exp_id>/<run_id>/artifacts/), you should find raw_expense_data/ containing your generated CSV and summary_stats.json.
+
+10. _Refresh the UIs:_
+
+    - MLflow UI: http://localhost:5000 (Hard refresh: Ctrl + Shift + R or Ctrl + F5). You should now see your logged experiment data.
+
+    - Streamlit UI: http://localhost:8504 (Hard refresh: Ctrl + Shift + R or Ctrl + F5). The dashboard should now display the aggregated results and trends.
+
+11. View Reports and Trends:
+
+    - Refresh your MLflow UI (http://localhost:5000): You should now see new experiments and runs logged, complete with parameters, metrics, and the saved model.
+
+    - Refresh your Streamlit UI (http://localhost:8501): The dashboard will now display the aggregated results and trends from your MLflow runs.
 
 ## 📅 Simulating Weekly Automation (GitHub Actions)
 

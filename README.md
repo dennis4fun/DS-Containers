@@ -103,24 +103,24 @@ This command will:
 docker ps
 ```
 
-You should see mlflow_postgres_db, mlflow_tracking_server, and restaurant_streamlit_ui listed with "Up" status.
+You should see `mlflow_postgres_db`, `mlflow_tracking_server`, and `restaurant_streamlit_ui` listed with "Up" status.
 
 6. Access the UIs:
 
-- MLflow UI: Open your web browser and go to: http://localhost:5000
+- MLflow UI: Open your web browser and go to: `http://localhost:5000`
 
   - You should see the MLflow UI, initially empty.
 
-- Streamlit UI: Open your web browser and go to: http://localhost:8504
+- Streamlit UI: Open your web browser and go to: `http://localhost:8504`
 
   - You should see the Streamlit dashboard, which will initially show no runs.
 
 1. Generate Data (Local Execution):
-   This step creates the CSV data on your host, which ml_experiment.py will then read.
+   This step creates the CSV data on your host, which `ml_experiment.py` will then read.
 
-   - Open a PowerShell terminal and navigate to DS-Containers.
+   - Open a PowerShell terminal and navigate to `DS-Containers`.
 
-- Ensure your Conda environment (rag_env) is activated.
+- Ensure your Conda environment (`rag_env`) is activated.
 
 - Run:
 
@@ -186,6 +186,6 @@ docker-compose down -v
 
 - `down`: Stops and removes the containers and networks defined in docker-compose.yml.
 
-- `-v`: Removes the named volumes (`mlflow_postgres_data`, `mlflow_tracking_store`, and `mlflow_artifacts`), mlflow_artifacts), which will delete all your database data and logged artifacts. Omit `-v` if you want to keep the data for future runs.
+- `-v`: Removes the named volumes (`mlflow_postgres_data`, `mlflow_tracking_store`, and `mlflow_artifacts`), which will delete all your database data and logged artifacts. Omit `-v` if you want to keep the data for future runs.
 
 This project provides a robust and practical example of containerization in a data science context. Enjoy building and showcasing it!

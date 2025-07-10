@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/228970334660816609/70f2699966f74568b14ed1d6e8796333/artifacts
+end_time: 1752113977619
+entry_point_name: ''
+experiment_id: '228970334660816609'
+lifecycle_stage: active
+run_id: 70f2699966f74568b14ed1d6e8796333
+run_name: bittersweet-shad-162
+run_uuid: 70f2699966f74568b14ed1d6e8796333
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752113975481
+status: 3
+tags: []
+user_id: Dennis

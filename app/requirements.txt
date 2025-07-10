@@ -1,8 +1,8 @@
-# app/requirements.txt
+# DS-Containers/app/requirements.txt
 mlflow==2.14.0
 scikit-learn==1.5.1
 pandas==2.2.2
 numpy==1.26.4
-psycopg2-binary==2.9.9 # For MLflow to connect to Postgres
-streamlit==1.36.0 # Pin Streamlit version
-plotly==5.22.0 # For Streamlit visualizations
+# psycopg2-binary==2.9.9 # REMOVED: No longer needed for PostgreSQL
+streamlit==1.36.0
+plotly==5.22.0

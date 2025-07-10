@@ -1,0 +1,201 @@
+date,product,quantity,unit_price,supplier,payment_method,notes,total_price
+2025-07-15 07:14:52.164989,Disposable Goods,32,43.18,Supplier B,Credit Card,Special Request,1381.76
+2025-07-12 07:14:52.164989,"Grains (Rice, Pasta)",47,75.21,Wholesale Foods,Cash,Special Request,3534.87
+2025-07-13 07:14:52.164989,"Beverages (Soft Drinks, Juices)",22,75.58,Supplier B,Cash,None,1662.76
+2025-07-15 07:14:52.164989,Spices & Herbs,23,10.76,Supplier C,Credit Card,None,247.48
+2025-07-11 07:14:52.164989,Fruits,2,90.3,Supplier C,Bank Transfer,None,180.6
+2025-07-13 07:14:52.164989,Seafood,27,50.77,Wholesale Foods,Bank Transfer,None,1370.79
+2025-07-13 07:14:52.164989,Bakery Items,42,82.73,Wholesale Foods,Bank Transfer,None,3474.66
+2025-07-15 07:14:52.164989,Disposable Goods,2,32.34,Supplier B,Bank Transfer,Urgent,64.68
+2025-07-10 07:14:52.164989,Bakery Items,26,89.6,Local Farm,Credit Card,Bulk Order,2329.6
+2025-07-11 07:14:52.164989,Fresh Vegetables,17,39.23,Supplier B,Cash,None,666.91
+2025-07-15 07:14:52.164989,Fresh Vegetables,40,1.58,Wholesale Foods,Bank Transfer,Bulk Order,63.2
+2025-07-11 07:14:52.164989,Disposable Goods,33,90.59,Wholesale Foods,Credit Card,None,2989.47
+2025-07-11 07:14:52.164989,Fruits,9,9.58,Supplier A,Bank Transfer,Urgent,86.22
+2025-07-13 07:14:52.164989,Disposable Goods,43,32.27,Wholesale Foods,Bank Transfer,Special Request,1387.61
+2025-07-12 07:14:52.164989,Spices & Herbs,48,95.03,Supplier A,Credit Card,None,4561.44
+2025-07-11 07:14:52.164989,Disposable Goods,39,95.09,Local Farm,Cash,None,3708.51
+2025-07-14 07:14:52.164989,Dairy Products,29,57.56,Supplier B,Cash,Bulk Order,1669.24
+2025-07-13 07:14:52.164989,Bakery Items,42,63.37,Supplier B,Credit Card,None,2661.54
+2025-07-10 07:14:52.164989,"Beverages (Soft Drinks, Juices)",26,45.12,Supplier A,Cash,None,1173.12
+2025-07-12 07:14:52.164989,Cleaning Supplies,35,29.67,Supplier B,Credit Card,Bulk Order,1038.45
+2025-07-14 07:14:52.164989,Fruits,25,33.2,Wholesale Foods,Credit Card,None,830.0
+2025-07-14 07:14:52.164989,Disposable Goods,24,67.42,Supplier C,Credit Card,Urgent,1618.08
+2025-07-10 07:14:52.164989,"Grains (Rice, Pasta)",13,75.36,Supplier A,Cash,None,979.68
+2025-07-12 07:14:52.164989,Fresh Vegetables,7,79.26,Supplier B,Credit Card,Bulk Order,554.82
+2025-07-13 07:14:52.164989,Dairy Products,36,79.07,Supplier A,Bank Transfer,None,2846.52
+2025-07-09 07:14:52.164989,Seafood,45,9.58,Supplier A,Cash,Special Request,431.1
+2025-07-12 07:14:52.164989,Cleaning Supplies,20,49.69,Supplier C,Cash,Urgent,993.8
+2025-07-10 07:14:52.164989,Fruits,1,6.23,Wholesale Foods,Cash,None,6.23
+2025-07-14 07:14:52.164989,"Beverages (Soft Drinks, Juices)",8,55.18,Supplier A,Cash,None,441.44
+2025-07-13 07:14:52.164989,Cleaning Supplies,46,44.43,Supplier B,Bank Transfer,Special Request,2043.78
+2025-07-12 07:14:52.164989,Disposable Goods,16,88.83,Local Farm,Cash,None,1421.28
+2025-07-09 07:14:52.164989,Spices & Herbs,14,35.42,Supplier A,Cash,None,495.88
+2025-07-09 07:14:52.164989,Fresh Vegetables,12,12.15,Supplier A,Credit Card,None,145.8
+2025-07-11 07:14:52.164989,Fresh Vegetables,23,14.73,Supplier C,Cash,None,338.79
+2025-07-11 07:14:52.164989,Seafood,15,76.27,Wholesale Foods,Bank Transfer,Urgent,1144.05
+2025-07-15 07:14:52.164989,Spices & Herbs,28,62.01,Local Farm,Bank Transfer,None,1736.28
+2025-07-10 07:14:52.164989,Bakery Items,34,10.56,Supplier B,Bank Transfer,None,359.04
+2025-07-12 07:14:52.164989,"Meats (Beef, Chicken)",2,8.87,Local Farm,Bank Transfer,None,17.74
+2025-07-12 07:14:52.164989,Dairy Products,32,70.25,Supplier B,Cash,None,2248.0
+2025-07-15 07:14:52.164989,Fresh Vegetables,23,7.74,Wholesale Foods,Cash,None,178.02
+2025-07-14 07:14:52.164989,"Grains (Rice, Pasta)",22,82.28,Supplier B,Bank Transfer,None,1810.16
+2025-07-14 07:14:52.164989,Fresh Vegetables,25,70.77,Supplier C,Bank Transfer,Special Request,1769.25
+2025-07-15 07:14:52.164989,Cleaning Supplies,22,8.59,Supplier C,Cash,None,188.98
+2025-07-14 07:14:52.164989,Fresh Vegetables,22,8.94,Supplier C,Bank Transfer,None,196.68
+2025-07-11 07:14:52.164989,Fruits,49,98.67,Supplier C,Credit Card,Bulk Order,4834.83
+2025-07-12 07:14:52.164989,Fresh Vegetables,42,37.74,Local Farm,Bank Transfer,None,1585.08
+2025-07-15 07:14:52.164989,"Meats (Beef, Chicken)",6,37.38,Wholesale Foods,Bank Transfer,Bulk Order,224.28
+2025-07-12 07:14:52.164989,"Meats (Beef, Chicken)",15,81.37,Supplier B,Credit Card,None,1220.55
+2025-07-09 07:14:52.164989,"Beverages (Soft Drinks, Juices)",43,94.75,Supplier B,Credit Card,None,4074.25
+2025-07-11 07:14:52.164989,Bakery Items,37,98.61,Supplier C,Cash,None,3648.57
+2025-07-13 07:14:52.164989,"Grains (Rice, Pasta)",33,75.46,Supplier C,Cash,None,2490.18
+2025-07-11 07:14:52.164989,Fresh Vegetables,8,37.94,Supplier A,Credit Card,Urgent,303.52
+2025-07-15 07:14:52.164989,Fresh Vegetables,44,8.81,Wholesale Foods,Credit Card,None,387.64
+2025-07-13 07:14:52.164989,Dairy Products,44,77.83,Local Farm,Cash,None,3424.52
+2025-07-09 07:14:52.164989,"Meats (Beef, Chicken)",5,56.06,Supplier B,Bank Transfer,None,280.3
+2025-07-15 07:14:52.164989,"Grains (Rice, Pasta)",39,42.71,Supplier A,Credit Card,None,1665.69
+2025-07-10 07:14:52.164989,Seafood,4,90.68,Supplier A,Cash,Urgent,362.72
+2025-07-12 07:14:52.164989,"Beverages (Soft Drinks, Juices)",6,11.56,Supplier B,Bank Transfer,None,69.36
+2025-07-09 07:14:52.164989,Bakery Items,45,49.52,Local Farm,Credit Card,None,2228.4
+2025-07-12 07:14:52.164989,Spices & Herbs,32,1.63,Supplier A,Bank Transfer,None,52.16
+2025-07-14 07:14:52.164989,Bakery Items,30,47.13,Supplier A,Cash,None,1413.9
+2025-07-10 07:14:52.164989,Fruits,47,6.1,Wholesale Foods,Credit Card,Bulk Order,286.7
+2025-07-10 07:14:52.164989,Cleaning Supplies,35,12.32,Local Farm,Bank Transfer,None,431.2
+2025-07-09 07:14:52.164989,Fruits,40,12.19,Supplier A,Credit Card,Urgent,487.6
+2025-07-10 07:14:52.164989,Fresh Vegetables,16,65.1,Local Farm,Bank Transfer,None,1041.6
+2025-07-13 07:14:52.164989,"Beverages (Soft Drinks, Juices)",13,74.73,Supplier B,Cash,None,971.49
+2025-07-10 07:14:52.164989,Cleaning Supplies,42,58.55,Supplier C,Cash,Special Request,2459.1
+2025-07-12 07:14:52.164989,"Grains (Rice, Pasta)",30,96.24,Supplier A,Credit Card,None,2887.2
+2025-07-12 07:14:52.164989,Spices & Herbs,19,37.8,Wholesale Foods,Bank Transfer,None,718.2
+2025-07-15 07:14:52.164989,"Meats (Beef, Chicken)",17,28.93,Supplier B,Credit Card,Urgent,491.81
+2025-07-12 07:14:52.164989,"Beverages (Soft Drinks, Juices)",19,86.93,Local Farm,Credit Card,None,1651.67
+2025-07-15 07:14:52.164989,"Beverages (Soft Drinks, Juices)",28,22.75,Supplier B,Bank Transfer,Bulk Order,637.0
+2025-07-12 07:14:52.164989,Fruits,26,96.34,Supplier A,Bank Transfer,None,2504.84
+2025-07-13 07:14:52.164989,Fresh Vegetables,37,1.71,Local Farm,Bank Transfer,Special Request,63.27
+2025-07-15 07:14:52.164989,Disposable Goods,26,97.0,Supplier C,Cash,Urgent,2522.0
+2025-07-11 07:14:52.164989,Fruits,23,4.79,Supplier B,Credit Card,None,110.17
+2025-07-14 07:14:52.164989,"Beverages (Soft Drinks, Juices)",9,89.17,Supplier A,Credit Card,Special Request,802.53
+2025-07-09 07:14:52.164989,Dairy Products,12,53.01,Wholesale Foods,Cash,None,636.12
+2025-07-12 07:14:52.164989,Spices & Herbs,1,99.3,Local Farm,Bank Transfer,Special Request,99.3
+2025-07-10 07:14:52.164989,Fruits,1,7.84,Supplier B,Cash,None,7.84
+2025-07-12 07:14:52.164989,Spices & Herbs,47,55.61,Supplier B,Cash,None,2613.67
+2025-07-10 07:14:52.164989,Dairy Products,34,96.95,Supplier C,Cash,None,3296.3
+2025-07-14 07:14:52.164989,Seafood,32,52.55,Supplier C,Credit Card,None,1681.6
+2025-07-14 07:14:52.164989,Dairy Products,48,63.13,Wholesale Foods,Cash,None,3030.24
+2025-07-14 07:14:52.164989,Dairy Products,25,69.73,Wholesale Foods,Credit Card,Bulk Order,1743.25
+2025-07-10 07:14:52.164989,Spices & Herbs,40,45.73,Supplier A,Credit Card,Bulk Order,1829.2
+2025-07-12 07:14:52.164989,Bakery Items,45,62.94,Supplier A,Credit Card,Special Request,2832.3
+2025-07-14 07:14:52.164989,Spices & Herbs,1,58.64,Wholesale Foods,Bank Transfer,None,58.64
+2025-07-13 07:14:52.164989,Disposable Goods,16,90.17,Wholesale Foods,Credit Card,None,1442.72
+2025-07-15 07:14:52.164989,Fresh Vegetables,39,5.02,Local Farm,Credit Card,None,195.78
+2025-07-10 07:14:52.164989,Cleaning Supplies,5,28.46,Supplier C,Bank Transfer,None,142.3
+2025-07-10 07:14:52.164989,Bakery Items,22,95.07,Supplier A,Credit Card,None,2091.54
+2025-07-12 07:14:52.164989,"Meats (Beef, Chicken)",29,89.08,Supplier C,Cash,None,2583.32
+2025-07-10 07:14:52.164989,Cleaning Supplies,3,45.84,Supplier C,Cash,Urgent,137.52
+2025-07-10 07:14:52.164989,Fresh Vegetables,12,62.2,Wholesale Foods,Credit Card,None,746.4
+2025-07-14 07:14:52.164989,Fruits,26,28.1,Local Farm,Bank Transfer,None,730.6
+2025-07-12 07:14:52.164989,Disposable Goods,16,19.22,Supplier B,Cash,None,307.52
+2025-07-14 07:14:52.164989,Disposable Goods,37,46.64,Local Farm,Bank Transfer,None,1725.68
+2025-07-15 07:14:52.164989,"Meats (Beef, Chicken)",22,35.66,Local Farm,Bank Transfer,None,784.52
+2025-07-15 07:14:52.164989,Bakery Items,29,58.57,Supplier C,Cash,Special Request,1698.53
+2025-07-14 07:14:52.164989,Seafood,14,8.23,Local Farm,Bank Transfer,None,115.22
+2025-07-15 07:14:52.164989,Dairy Products,28,97.45,Supplier A,Cash,None,2728.6
+2025-07-12 07:14:52.164989,Bakery Items,5,98.63,Supplier C,Bank Transfer,None,493.15
+2025-07-09 07:14:52.164989,Seafood,47,69.97,Supplier A,Cash,Bulk Order,3288.59
+2025-07-14 07:14:52.164989,Disposable Goods,49,53.84,Supplier B,Credit Card,Special Request,2638.16
+2025-07-13 07:14:52.164989,Spices & Herbs,30,31.3,Supplier C,Cash,Urgent,939.0
+2025-07-13 07:14:52.164989,Fresh Vegetables,46,81.47,Supplier B,Cash,None,3747.62
+2025-07-10 07:14:52.164989,"Meats (Beef, Chicken)",5,68.63,Supplier C,Cash,None,343.15
+2025-07-15 07:14:52.164989,Fresh Vegetables,12,16.68,Wholesale Foods,Cash,None,200.16
+2025-07-13 07:14:52.164989,"Grains (Rice, Pasta)",16,91.14,Local Farm,Bank Transfer,Special Request,1458.24
+2025-07-10 07:14:52.164989,"Grains (Rice, Pasta)",26,82.34,Wholesale Foods,Credit Card,Urgent,2140.84
+2025-07-09 07:14:52.164989,Fruits,26,95.01,Supplier B,Cash,None,2470.26
+2025-07-12 07:14:52.164989,Bakery Items,48,72.71,Local Farm,Bank Transfer,Urgent,3490.08
+2025-07-12 07:14:52.164989,Disposable Goods,21,61.53,Supplier C,Credit Card,Urgent,1292.13
+2025-07-12 07:14:52.164989,Disposable Goods,39,42.12,Local Farm,Credit Card,None,1642.68
+2025-07-13 07:14:52.164989,Dairy Products,36,93.31,Supplier A,Credit Card,Special Request,3359.16
+2025-07-09 07:14:52.164989,Dairy Products,33,86.67,Local Farm,Credit Card,Special Request,2860.11
+2025-07-13 07:14:52.164989,Dairy Products,30,5.0,Supplier A,Cash,None,150.0
+2025-07-15 07:14:52.164989,Spices & Herbs,37,3.12,Local Farm,Cash,None,115.44
+2025-07-13 07:14:52.164989,Cleaning Supplies,23,37.96,Supplier A,Bank Transfer,None,873.08
+2025-07-09 07:14:52.164989,"Beverages (Soft Drinks, Juices)",10,81.15,Supplier B,Bank Transfer,None,811.5
+2025-07-09 07:14:52.164989,Cleaning Supplies,5,98.73,Wholesale Foods,Bank Transfer,None,493.65
+2025-07-15 07:14:52.164989,Fresh Vegetables,36,15.47,Supplier C,Credit Card,None,556.92
+2025-07-09 07:14:52.164989,Cleaning Supplies,34,59.62,Local Farm,Credit Card,Special Request,2027.08
+2025-07-09 07:14:52.164989,Spices & Herbs,31,38.4,Wholesale Foods,Cash,None,1190.4
+2025-07-12 07:14:52.164989,Fruits,10,97.01,Supplier C,Credit Card,None,970.1
+2025-07-15 07:14:52.164989,Fresh Vegetables,19,84.29,Supplier C,Credit Card,None,1601.51
+2025-07-11 07:14:52.164989,Cleaning Supplies,32,83.91,Supplier A,Credit Card,None,2685.12
+2025-07-11 07:14:52.164989,Spices & Herbs,1,47.13,Supplier B,Bank Transfer,Urgent,47.13
+2025-07-09 07:14:52.164989,"Beverages (Soft Drinks, Juices)",5,41.77,Supplier B,Bank Transfer,None,208.85
+2025-07-11 07:14:52.164989,Cleaning Supplies,45,27.7,Wholesale Foods,Cash,None,1246.5
+2025-07-11 07:14:52.164989,Spices & Herbs,4,6.11,Supplier B,Credit Card,None,24.44
+2025-07-09 07:14:52.164989,Dairy Products,16,86.54,Local Farm,Credit Card,Urgent,1384.64
+2025-07-11 07:14:52.164989,Disposable Goods,24,81.38,Supplier B,Cash,Urgent,1953.12
+2025-07-13 07:14:52.164989,Dairy Products,16,99.97,Wholesale Foods,Credit Card,None,1599.52
+2025-07-10 07:14:52.164989,Disposable Goods,2,99.67,Supplier B,Credit Card,None,199.34
+2025-07-15 07:14:52.164989,"Meats (Beef, Chicken)",49,55.77,Local Farm,Bank Transfer,None,2732.73
+2025-07-10 07:14:52.164989,"Meats (Beef, Chicken)",28,77.01,Supplier A,Cash,None,2156.28
+2025-07-09 07:14:52.164989,"Meats (Beef, Chicken)",32,94.5,Wholesale Foods,Cash,None,3024.0
+2025-07-12 07:14:52.164989,"Beverages (Soft Drinks, Juices)",27,85.04,Supplier A,Cash,None,2296.08
+2025-07-15 07:14:52.164989,Dairy Products,20,25.11,Supplier A,Cash,None,502.2
+2025-07-09 07:14:52.164989,Disposable Goods,24,45.33,Supplier A,Bank Transfer,None,1087.92
+2025-07-12 07:14:52.164989,Spices & Herbs,12,13.35,Supplier C,Bank Transfer,Bulk Order,160.2
+2025-07-10 07:14:52.164989,Fresh Vegetables,35,95.43,Supplier C,Credit Card,None,3340.05
+2025-07-09 07:14:52.164989,Spices & Herbs,33,60.81,Supplier A,Credit Card,None,2006.73
+2025-07-15 07:14:52.164989,Fresh Vegetables,33,23.25,Wholesale Foods,Credit Card,None,767.25
+2025-07-15 07:14:52.164989,"Grains (Rice, Pasta)",43,67.33,Local Farm,Credit Card,None,2895.19
+2025-07-14 07:14:52.164989,Spices & Herbs,37,62.0,Local Farm,Bank Transfer,Bulk Order,2294.0
+2025-07-13 07:14:52.164989,Cleaning Supplies,12,36.14,Supplier B,Cash,None,433.68
+2025-07-11 07:14:52.164989,Cleaning Supplies,3,11.8,Wholesale Foods,Bank Transfer,None,35.4
+2025-07-12 07:14:52.164989,Bakery Items,1,67.32,Supplier C,Credit Card,Urgent,67.32
+2025-07-14 07:14:52.164989,Dairy Products,33,52.27,Supplier A,Bank Transfer,None,1724.91
+2025-07-11 07:14:52.164989,Fresh Vegetables,40,77.35,Supplier B,Cash,None,3094.0
+2025-07-11 07:14:52.164989,Fresh Vegetables,10,52.26,Local Farm,Cash,Bulk Order,522.6
+2025-07-09 07:14:52.164989,Fruits,43,85.29,Supplier C,Bank Transfer,None,3667.47
+2025-07-11 07:14:52.164989,Dairy Products,44,55.41,Supplier C,Bank Transfer,None,2438.04
+2025-07-13 07:14:52.164989,"Beverages (Soft Drinks, Juices)",29,56.31,Supplier A,Bank Transfer,Special Request,1632.99
+2025-07-15 07:14:52.164989,Bakery Items,13,87.73,Local Farm,Credit Card,None,1140.49
+2025-07-14 07:14:52.164989,"Beverages (Soft Drinks, Juices)",12,40.65,Wholesale Foods,Bank Transfer,None,487.8
+2025-07-11 07:14:52.164989,"Beverages (Soft Drinks, Juices)",31,13.83,Supplier C,Bank Transfer,None,428.73
+2025-07-09 07:14:52.164989,"Beverages (Soft Drinks, Juices)",46,3.36,Supplier A,Bank Transfer,Special Request,154.56
+2025-07-13 07:14:52.164989,Dairy Products,2,75.64,Wholesale Foods,Cash,None,151.28
+2025-07-10 07:14:52.164989,"Beverages (Soft Drinks, Juices)",35,62.22,Local Farm,Cash,None,2177.7
+2025-07-15 07:14:52.164989,Cleaning Supplies,23,70.56,Supplier C,Credit Card,None,1622.88
+2025-07-15 07:14:52.164989,Fruits,17,21.69,Wholesale Foods,Credit Card,None,368.73
+2025-07-14 07:14:52.164989,Fruits,26,14.07,Wholesale Foods,Cash,None,365.82
+2025-07-15 07:14:52.164989,"Meats (Beef, Chicken)",8,1.95,Wholesale Foods,Cash,None,15.6
+2025-07-11 07:14:52.164989,"Grains (Rice, Pasta)",29,35.38,Supplier C,Cash,None,1026.02
+2025-07-09 07:14:52.164989,Fresh Vegetables,26,59.2,Supplier C,Bank Transfer,None,1539.2
+2025-07-15 07:14:52.164989,Fresh Vegetables,10,39.53,Supplier B,Bank Transfer,None,395.3
+2025-07-15 07:14:52.164989,"Grains (Rice, Pasta)",26,44.03,Local Farm,Cash,None,1144.78
+2025-07-10 07:14:52.164989,Dairy Products,34,90.46,Supplier A,Bank Transfer,None,3075.64
+2025-07-10 07:14:52.164989,Spices & Herbs,41,35.15,Wholesale Foods,Bank Transfer,None,1441.15
+2025-07-12 07:14:52.164989,Dairy Products,7,51.64,Supplier B,Credit Card,Urgent,361.48
+2025-07-13 07:14:52.164989,Fresh Vegetables,4,78.47,Supplier A,Cash,None,313.88
+2025-07-11 07:14:52.164989,Fresh Vegetables,45,39.96,Supplier B,Cash,None,1798.2
+2025-07-15 07:14:52.164989,"Grains (Rice, Pasta)",11,62.4,Supplier C,Bank Transfer,None,686.4
+2025-07-15 07:14:52.164989,"Beverages (Soft Drinks, Juices)",29,86.31,Wholesale Foods,Cash,Bulk Order,2502.99
+2025-07-09 07:14:52.164989,Dairy Products,36,94.98,Supplier A,Credit Card,Urgent,3419.28
+2025-07-12 07:14:52.164989,Disposable Goods,25,15.13,Supplier A,Credit Card,None,378.25
+2025-07-13 07:14:52.164989,"Grains (Rice, Pasta)",21,92.7,Supplier A,Credit Card,None,1946.7
+2025-07-12 07:14:52.164989,Cleaning Supplies,36,49.47,Supplier A,Cash,Special Request,1780.92
+2025-07-14 07:14:52.164989,Fresh Vegetables,10,26.2,Supplier A,Cash,None,262.0
+2025-07-13 07:14:52.164989,"Grains (Rice, Pasta)",37,46.18,Supplier B,Cash,None,1708.66
+2025-07-15 07:14:52.164989,Dairy Products,9,98.01,Wholesale Foods,Cash,None,882.09
+2025-07-15 07:14:52.164989,Fresh Vegetables,24,49.52,Supplier C,Cash,None,1188.48
+2025-07-13 07:14:52.164989,Spices & Herbs,35,33.21,Supplier C,Credit Card,Special Request,1162.35
+2025-07-15 07:14:52.164989,"Grains (Rice, Pasta)",49,63.52,Supplier C,Bank Transfer,Urgent,3112.48
+2025-07-11 07:14:52.164989,Bakery Items,35,24.39,Supplier C,Credit Card,None,853.65
+2025-07-13 07:14:52.164989,Fresh Vegetables,48,8.05,Supplier B,Cash,None,386.4
+2025-07-12 07:14:52.164989,Dairy Products,36,13.32,Local Farm,Credit Card,Special Request,479.52
+2025-07-13 07:14:52.164989,"Meats (Beef, Chicken)",18,13.24,Wholesale Foods,Cash,Bulk Order,238.32
+2025-07-15 07:14:52.164989,Disposable Goods,49,15.61,Supplier A,Cash,None,764.89
+2025-07-11 07:14:52.164989,Seafood,39,14.31,Local Farm,Credit Card,Special Request,558.09
+2025-07-11 07:14:52.164989,"Beverages (Soft Drinks, Juices)",32,64.27,Supplier C,Cash,Special Request,2056.64
+2025-07-14 07:14:52.164989,Seafood,24,18.6,Local Farm,Bank Transfer,Urgent,446.4
+2025-07-12 07:14:52.164989,Dairy Products,23,34.89,Wholesale Foods,Cash,None,802.47
+2025-07-10 07:14:52.164989,Cleaning Supplies,32,89.73,Supplier A,Bank Transfer,None,2871.36
+2025-07-10 07:14:52.164989,Cleaning Supplies,37,47.66,Supplier A,Bank Transfer,Bulk Order,1763.42
+2025-07-13 07:14:52.164989,"Meats (Beef, Chicken)",12,66.92,Wholesale Foods,Cash,None,803.04

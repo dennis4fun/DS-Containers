@@ -15,18 +15,27 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 
 def analyze_and_log_expenses(data_path):
     """
-    Reads weekly expense data, performs basic analysis, trains a model,
+    Reads expense data, performs basic analysis, trains a model,
     and logs results to MLflow.
-    data_path is expected to be relative to the container's root, e.g., /data/weekly_expense_YYYY-MM-DD.csv
+    data_path is expected to be the path to the generated CSV file (e.g., /data/expense_data_XYZ.csv).
     """
     logging.info(f"Starting ML experiment for data: {data_path}")
+
+    # Set MLflow tracking URI explicitly for local execution
+    # This will connect to the containerized MLflow server
+    mlflow.set_tracking_uri("http://localhost:5000")
+    
+    # REMOVED: mlflow.set_artifact_uri() is deprecated and no longer needed.
+    # The artifact URI is now configured on the MLflow server side (docker-compose.yml).
+    # mlflow.set_artifact_uri("file://" + os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'reports', 'artifacts')))
+
 
     try:
         df = pd.read_csv(data_path)
         logging.info(f"Loaded {len(df)} records from {data_path}")
     except FileNotFoundError:
         logging.error(f"Data file not found: {data_path}")
-        return
+        raise # Re-raise to ensure the execution fails if file not found
 
     df['date'] = pd.to_datetime(df['date'])
     df['day_of_week'] = df['date'].dt.day_name()
@@ -38,13 +47,14 @@ def analyze_and_log_expenses(data_path):
     num_suppliers = df['supplier'].nunique()
 
     summary_stats = {
-        "weekly_total_expense": weekly_total_expense.round(2),
+        "total_expense": weekly_total_expense.round(2),
         "avg_price_per_item": avg_price_per_item.round(2),
         "top_product_category": top_product_category,
         "num_suppliers": num_suppliers,
-        "num_records": len(df)
+        "num_records": len(df),
+        "data_file_used": os.path.basename(data_path)
     }
-    logging.info(f"Weekly Summary: {summary_stats}")
+    logging.info(f"Summary: {summary_stats}")
 
     features = ['quantity', 'unit_price']
     target = 'total_price'
@@ -61,39 +71,53 @@ def analyze_and_log_expenses(data_path):
 
         model = LinearRegression()
         model.fit(X_train, y_train)
-
+        
         y_pred = model.predict(X_test)
 
         rmse = np.sqrt(mean_squared_error(y_test, y_pred))
         r2 = r2_score(y_test, y_pred)
         logging.info(f"RMSE: {rmse:.2f}, R2 Score: {r2:.2f}")
 
-    week_start_date = data_path.split('_')[-1].replace('.csv', '')
-    mlflow.set_experiment(f"Restaurant Expense Report - Week {week_start_date}")
+    current_timestamp = datetime.now().strftime('%Y%m%d-%H%M%S')
+    mlflow.set_experiment(f"Expense Report - Run {current_timestamp}")
 
     with mlflow.start_run() as run:
-        mlflow.log_param("data_file", os.path.basename(data_path))
+        mlflow.log_param("input_data_file", os.path.basename(data_path))
         mlflow.log_param("num_records_processed", len(df))
         mlflow.log_param("model_type", "LinearRegression" if model else "None (Insufficient Data)")
-
+        
         if model:
-            mlflow.log_metric("weekly_total_expense", weekly_total_expense)
-            mlflow.log_metric("avg_price_per_item", avg_price_per_item)
+            mlflow.log_metric("total_expense", summary_stats["total_expense"])
+            mlflow.log_metric("avg_price_per_item", summary_stats["avg_price_per_item"])
             mlflow.log_metric("rmse", rmse)
             mlflow.log_metric("r2_score", r2)
         else:
-            mlflow.log_metric("weekly_total_expense", weekly_total_expense)
-            mlflow.log_metric("avg_price_per_item", avg_price_per_item)
+            mlflow.log_metric("total_expense", summary_stats["total_expense"])
+            mlflow.log_metric("avg_price_per_item", summary_stats["avg_price_per_item"])
 
         with open("summary_stats.json", "w") as f:
             json.dump(summary_stats, f, indent=4)
         mlflow.log_artifact("summary_stats.json")
-        os.remove("summary_stats.json")
+        os.remove("summary_stats.json") # Clean up local summary file
+
+        # Log the raw data CSV as an artifact
+        mlflow.log_artifact(data_path, artifact_path="raw_expense_data")
+        # No need to os.remove(data_path) here, as it's in /data, not /tmp
 
         if model:
-            mlflow.sklearn.log_model(model, "expense_prediction_model")
-            logging.info("ML model logged to MLflow.")
-
+            # FIX: Commented out mlflow.sklearn.log_model as Model Registry is not supported by file store.
+            # logging.info("ML model logged to MLflow.")
+            logging.warning("ML model logging (to Model Registry) skipped as file store does not support it.")
+        
         logging.info(f"MLflow Run ID: {run.info.run_id}")
 
-    logging.info(f"ML experiment for {data_path} finished and logged.")
+    logging.info(f"ML experiment finished and logged.")
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) > 1:
+        # If an argument is provided, assume it's the data file path
+        analyze_and_log_expenses(sys.argv[1])
+    else:
+        logging.error("No data file path provided. Usage: python ml_experiment.py <path_to_expense_csv>")
+        sys.exit(1) # Exit if no data file is provided

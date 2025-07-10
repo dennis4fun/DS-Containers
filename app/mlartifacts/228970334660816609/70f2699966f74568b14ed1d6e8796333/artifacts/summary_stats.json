@@ -1,0 +1,8 @@
+{
+    "total_expense": 271084.1,
+    "avg_price_per_item": 52.73,
+    "top_product_category": "Fresh Vegetables",
+    "num_suppliers": 5,
+    "num_records": 200,
+    "data_file_used": "expense_data.csv"
+}

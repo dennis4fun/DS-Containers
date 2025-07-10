@@ -4,15 +4,21 @@ import numpy as np
 import os
 from datetime import datetime, timedelta
 
-def generate_weekly_expense_data(start_date_str, num_records=200, output_dir='data'):
+def generate_expense_data(output_dir: str, num_records: int = 200, seed: int = 42) -> str:
     """
-    Generates synthetic weekly restaurant expense data and saves it to a CSV.
-    output_dir is relative to the container's WORKDIR (/app), but mapped to host's data/
+    Generates synthetic restaurant expense data and saves it to a CSV.
+    
+    Args:
+        output_dir (str): The directory where the CSV file should be saved.
+                          This path should be absolute or relative to the script's execution context.
+        num_records (int): Number of records to generate.
+        seed (int): Seed for reproducibility.
+    
+    Returns:
+        str: The full path to the generated CSV file.
     """
-    start_date = datetime.strptime(start_date_str, '%Y-%m-%d')
-    end_date = start_date + timedelta(days=6) # A full week
-
-    np.random.seed(int(start_date.strftime('%Y%m%d'))) # Seed for reproducibility per week
+    current_run_date = datetime.now()
+    np.random.seed(seed)
 
     products = [
         'Fresh Vegetables', 'Meats (Beef, Chicken)', 'Dairy Products', 'Spices & Herbs',
@@ -23,7 +29,7 @@ def generate_weekly_expense_data(start_date_str, num_records=200, output_dir='da
     payment_methods = ['Credit Card', 'Bank Transfer', 'Cash']
 
     data = {
-        'date': [start_date + timedelta(days=np.random.randint(0, 7)) for _ in range(num_records)],
+        'date': [current_run_date + timedelta(days=np.random.randint(0, 7)) for _ in range(num_records)],
         'product': np.random.choice(products, num_records),
         'quantity': np.random.randint(1, 50, num_records),
         'unit_price': np.random.uniform(0.5, 100.0, num_records).round(2),
@@ -35,13 +41,23 @@ def generate_weekly_expense_data(start_date_str, num_records=200, output_dir='da
     df = pd.DataFrame(data)
     df['total_price'] = (df['quantity'] * df['unit_price']).round(2)
 
-    # Ensure output directory exists (relative to container's /app, which maps to host's data/)
-    # The 'data' directory is mounted at '/data' in the container
-    # So, we need to write to /data/ instead of just 'data'
-    container_output_dir = os.path.join('/data', output_dir) # Corrected path within container
-    os.makedirs(container_output_dir, exist_ok=True)
-
-    filename = os.path.join(container_output_dir, f"weekly_expense_{start_date.strftime('%Y-%m-%d')}.csv")
+    os.makedirs(output_dir, exist_ok=True)
+    
+    filename = os.path.join(output_dir, f"expense_data_{datetime.now().strftime('%Y%m%d%H%M%S')}.csv") # Unique filename per run
     df.to_csv(filename, index=False)
-    print(f"Generated {num_records} records for week starting {start_date_str} to {filename}")
+    print(filename) # Print only the filename for easy capture by shell scripts
     return filename
+
+if __name__ == "__main__":
+    import sys
+    # When run directly, it expects an output directory as an argument.
+    # For local testing, you would typically run it like:
+    # python data_generator.py ../data
+    
+    if len(sys.argv) > 1:
+        output_directory_arg = sys.argv[1]
+        generate_expense_data(output_directory_arg)
+    else:
+        print("Usage: python data_generator.py <output_directory_path>")
+        print("Example: python data_generator.py ../data")
+        sys.exit(1) # Exit if no output directory is provided

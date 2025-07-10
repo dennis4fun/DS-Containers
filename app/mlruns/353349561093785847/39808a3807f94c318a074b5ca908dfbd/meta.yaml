@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/353349561093785847/39808a3807f94c318a074b5ca908dfbd/artifacts
+end_time: 1752105813823
+entry_point_name: ''
+experiment_id: '353349561093785847'
+lifecycle_stage: active
+run_id: 39808a3807f94c318a074b5ca908dfbd
+run_name: gifted-fox-563
+run_uuid: 39808a3807f94c318a074b5ca908dfbd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1752105811444
+status: 3
+tags: []
+user_id: Dennis
